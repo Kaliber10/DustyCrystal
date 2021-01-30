@@ -105,6 +105,52 @@ CheckPartyMove:
 	scf
 	ret
 
+CheckPartyCanLearnMove:
+; Check if a monster in your party can learn move d.
+
+	ld e, 0
+	xor a
+	ld [wCurPartyMon], a
+.loop
+	ld c, e
+	ld b, 0
+	ld hl, wPartySpecies
+	add hl, bc
+	ld a, [hl]
+	and a
+	jr z, .no
+	cp -1
+	jr z, .no
+	cp EGG
+	jr z, .next
+
+; load the current pokemon being checked
+	ld [wCurPartySpecies], a
+; load the hm move. d is assigned by the Field Move check 
+	ld a, d
+	ld [wPutativeTMHMMove], a
+
+	push de
+	farcall CanLearnTMHMMove
+	pop de
+.check
+	ld a, c
+	and a
+	jr nz, .yes
+
+.next
+	inc e
+	jr .loop
+
+.yes
+	ld a, e
+	ld [wCurPartyMon], a ; which mon has the move
+	xor a
+	ret
+.no
+	scf
+	ret
+
 FieldMoveFailed:
 	ld hl, .CantUseItemText
 	call MenuTextboxBackup
@@ -345,9 +391,25 @@ SurfFunction:
 	dw .AlreadySurfing
 
 .TrySurf:
-	ld de, ENGINE_FOGBADGE
-	call CheckBadge
-	jr c, .nofogbadge
+
+	ld hl, wUsingHMItem
+	ld a, [hl]
+	and a
+	jr nz, .item
+	jr .move
+.item
+	ld d, SURF
+	call CheckPartyCanLearnMove
+	jr c, .missing
+	jr .main
+.move
+	ld a, SURF_PERMIT
+	ld [wCurItem], a
+	ld hl, wNumItems
+	call CheckItem
+	jr nc, .missing
+	jr .main
+.main
 	ld hl, wBikeFlags
 	bit BIKEFLAGS_ALWAYS_ON_BIKE_F, [hl]
 	jr nz, .cannotsurf
@@ -366,7 +428,7 @@ SurfFunction:
 	jr c, .cannotsurf
 	ld a, $1
 	ret
-.nofogbadge
+.missing
 	ld a, $80
 	ret
 .alreadyfail
@@ -502,12 +564,15 @@ TrySurfOW::
 	call CheckDirection
 	jr c, .quit
 
-	ld de, ENGINE_FOGBADGE
-	call CheckEngineFlag
-	jr c, .quit
+; Check if Permit is obtained
+	ld a, SURF_PERMIT
+	ld [wCurItem], a
+	ld hl, wNumItems
+	call CheckItem
+	jr nc, .quit
 
 	ld d, SURF
-	call CheckPartyMove
+	call CheckPartyCanLearnMove
 	jr c, .quit
 
 	ld hl, wBikeFlags

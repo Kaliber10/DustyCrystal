@@ -327,7 +327,7 @@ _UsedSurfText::
 
 _CantSurfText::
 	text "You can't SURF"
-	line "here."
+	line "right now."
 	prompt
 
 _AlreadySurfingText::

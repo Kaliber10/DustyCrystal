@@ -81,14 +81,89 @@ EvolveAfterBattle_MasterLoop:
 	jp nz, .dont_evolve_2
 
 	ld a, b
-	cp EVOLVE_HOLDING
-	jp z, .holding
 	cp EVOLVE_LEVEL
 	jp z, .level
+
 	cp EVOLVE_HAPPINESS
 	jr z, .happiness
 
-; EVOLVE_STAT
+	cp EVOLVE_HOLDING
+	jp z, .holding
+
+.trade
+	ld a, [wLinkMode]
+	and a
+	jp z, .dont_evolve_2
+
+	call IsMonHoldingEverstone
+	jp z, .dont_evolve_2
+
+	ld a, [hli]
+	ld b, a
+	inc a
+	jp z, .proceed
+
+	ld a, [wLinkMode]
+	cp LINK_TIMECAPSULE
+	jp z, .dont_evolve_3
+
+	ld a, [wTempMonItem]
+	cp b
+	jp nz, .dont_evolve_3
+
+	xor a
+	ld [wTempMonItem], a
+	jp .proceed
+
+.item
+	ld a, [hli]
+	ld b, a
+	ld a, [wCurItem]
+	cp b
+	jp nz, .dont_evolve_3
+
+	ld a, [wForceEvolution]
+	and a
+	jp z, .dont_evolve_3
+	jr .proceed
+
+.level
+	ld a, [hli]
+	ld b, a
+	ld a, [wTempMonLevel]
+	cp b
+	jp c, .dont_evolve_3
+	call IsMonHoldingEverstone
+	jp z, .dont_evolve_3
+	jp .proceed
+
+.happiness
+	ld a, [wTempMonHappiness]
+	cp HAPPINESS_TO_EVOLVE
+	jp c, .dont_evolve_2
+
+	call IsMonHoldingEverstone
+	jp z, .dont_evolve_2
+
+	ld a, [hli]
+	cp TR_ANYTIME
+	jp z, .proceed
+	cp TR_MORNDAY
+	jr z, .happiness_daylight
+
+; TR_NITE
+	ld a, [wTimeOfDay]
+	cp NITE_F
+	jp nz, .dont_evolve_3
+	jp .proceed
+
+.happiness_daylight
+	ld a, [wTimeOfDay]
+	cp NITE_F
+	jp z, .dont_evolve_3
+	jr .proceed
+
+.stat
 	ld a, [wTempMonLevel]
 	cp [hl]
 	jp c, .dont_evolve_1
@@ -106,6 +181,7 @@ EvolveAfterBattle_MasterLoop:
 	ld a, ATK_LT_DEF
 	jr c, .got_tyrogue_evo
 	ld a, ATK_GT_DEF
+	
 .got_tyrogue_evo
 	pop hl
 
@@ -116,74 +192,8 @@ EvolveAfterBattle_MasterLoop:
 	inc hl
 	jp .proceed
 
-.happiness
-	ld a, [wTempMonHappiness]
-	cp HAPPINESS_TO_EVOLVE
-	jp c, .dont_evolve_2
-
-	call IsMonHoldingEverstone
-	jp z, .dont_evolve_2
-
-	ld a, [hli]
-	cp TR_ANYTIME
-	jr z, .proceed
-	cp TR_MORNDAY
-	jr z, .happiness_daylight
-
-; TR_NITE
-	ld a, [wTimeOfDay]
-	cp NITE_F
-	jp nz, .dont_evolve_3
-	jr .proceed
-
-.happiness_daylight
-	ld a, [wTimeOfDay]
-	cp NITE_F
-	jp z, .dont_evolve_3
-	jr .proceed
-
-.trade
-	ld a, [wLinkMode]
-	and a
-	jp z, .dont_evolve_2
-
-	call IsMonHoldingEverstone
-	jp z, .dont_evolve_2
-
-	ld a, [hli]
-	ld b, a
-	inc a
-	jr z, .proceed
-
-	ld a, [wLinkMode]
-	cp LINK_TIMECAPSULE
-	jp z, .dont_evolve_3
-
-	ld a, [wTempMonItem]
-	cp b
-	jp nz, .dont_evolve_3
-
-	xor a
-	ld [wTempMonItem], a
-	jr .proceed
-
-.item
-	ld a, [hli]
-	ld b, a
-	ld a, [wCurItem]
-	cp b
-	jp nz, .dont_evolve_3
-
-	ld a, [wForceEvolution]
-	and a
-	jp z, .dont_evolve_3
-	ld a, [wLinkMode]
-	and a
-	jp nz, .dont_evolve_3
-	jr .proceed
-
 .holding
-	ld a, [hl]
+	ld a, [hli]
 	ld b, a
 	ld a, [wTempMonItem]
 	cp b
@@ -191,15 +201,6 @@ EvolveAfterBattle_MasterLoop:
 	xor a
 	ld [wTempMonItem], a
 	jp .proceed
-
-.level
-	ld a, [hli]
-	ld b, a
-	ld a, [wTempMonLevel]
-	cp b
-	jp c, .dont_evolve_3
-	call IsMonHoldingEverstone
-	jp z, .dont_evolve_3
 
 .proceed
 	ld a, [wTempMonLevel]
