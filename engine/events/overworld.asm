@@ -176,9 +176,22 @@ CutFunction:
 	dw .FailCut
 
 .CheckAble:
-	ld de, ENGINE_HIVEBADGE
-	call CheckBadge
-	jr c, .nohivebadge
+	ld hl, wUsingHMItem
+	ld a, [hl]
+	and a
+	jr nz, .item
+	ld a, CUT_PERMIT
+	ld [wCurItem], a
+	ld hl, wNumItems
+	call CheckItem
+	jr nc, .nothingtocut
+	jr .main
+.item
+	ld d, CUT
+	call CheckPartyCanLearnMove
+	jr c, .nothingtocut
+	jr .main
+.main
 	call CheckMapForSomethingToCut
 	jr c, .nothingtocut
 	ld a, $1
@@ -325,9 +338,22 @@ FlashFunction:
 
 .CheckUseFlash:
 ; Flash
-	ld de, ENGINE_ZEPHYRBADGE
-	farcall CheckBadge
-	jr c, .nozephyrbadge
+	ld hl, wUsingHMItem
+	ld a, [hl]
+	and a
+	jr nz, .item
+	ld a, FLASH_PERMIT
+	ld [wCurItem], a
+	ld hl, wNumItems
+	call CheckItem
+	jr nc, .notadarkcave
+	jr .main
+.item
+	ld d, FLASH
+	call CheckPartyCanLearnMove
+	jr c, .notadarkcave
+	jr .main
+.main
 	push hl
 	farcall SpecialAerodactylChamber
 	pop hl
@@ -339,15 +365,11 @@ FlashFunction:
 	call UseFlash
 	ld a, $81
 	ret
-
 .notadarkcave
 	call FieldMoveFailed
 	ld a, $80
 	ret
 
-.nozephyrbadge
-	ld a, $80
-	ret
 
 UseFlash:
 	ld hl, Script_UseFlash
@@ -396,18 +418,16 @@ SurfFunction:
 	ld a, [hl]
 	and a
 	jr nz, .item
-	jr .move
-.item
-	ld d, SURF
-	call CheckPartyCanLearnMove
-	jr c, .missing
-	jr .main
-.move
 	ld a, SURF_PERMIT
 	ld [wCurItem], a
 	ld hl, wNumItems
 	call CheckItem
-	jr nc, .missing
+	jr nc, .cannotsurf
+	jr .main
+.item
+	ld d, SURF
+	call CheckPartyCanLearnMove
+	jr c, .cannotsurf
 	jr .main
 .main
 	ld hl, wBikeFlags
@@ -427,9 +447,6 @@ SurfFunction:
 	farcall CheckFacingObject
 	jr c, .cannotsurf
 	ld a, $1
-	ret
-.missing
-	ld a, $80
 	ret
 .alreadyfail
 	ld a, $3
@@ -620,12 +637,26 @@ FlyFunction:
  	dw .TryFly
  	dw .DoFly
  	dw .FailFly
+	dw .CantFly
 
 .TryFly:
 ; Fly
-	ld de, ENGINE_STORMBADGE
-	call CheckBadge
-	jr c, .nostormbadge
+	ld hl, wUsingHMItem
+	ld a, [hl]
+	and a
+	jr nz, .item
+	ld a, FLY_PERMIT
+	ld [wCurItem], a
+	ld hl, wNumItems
+	call CheckItem
+	jr nc, .indoors
+	jr .main
+.item
+	ld d, FLY
+	call CheckPartyCanLearnMove
+	jr c, .unable
+	jr .main
+.main
 	call GetMapEnvironment
 	call CheckOutdoorMap
 	jr z, .outdoors
@@ -648,8 +679,8 @@ FlyFunction:
 	ld a, $1
 	ret
 
-.nostormbadge
-	ld a, $82
+.unable
+	ld a, $3
 	ret
 
 .indoors
@@ -671,6 +702,11 @@ FlyFunction:
 .FailFly:
 	call FieldMoveFailed
 	ld a, $82
+	ret
+
+.CantFly:
+	call FieldMoveFailed
+	ld a, $80
 	ret
 
 .FlyScript:
@@ -703,10 +739,22 @@ WaterfallFunction:
 
 .TryWaterfall:
 ; Waterfall
-	ld de, ENGINE_RISINGBADGE
-	farcall CheckBadge
-	ld a, $80
-	ret c
+	ld hl, wUsingHMItem
+	ld a, [hl]
+	and a
+	jr nz, .item
+	ld a, FALLS_PERMIT
+	ld [wCurItem], a
+	ld hl, wNumItems
+	call CheckItem
+	jr nc, .failed
+	jr .main
+.item
+	ld d, WATERFALL
+	call CheckPartyCanLearnMove
+	jr c, .failed
+	jr .main
+.main
 	call CheckMapCanWaterfall
 	jr c, .failed
 	ld hl, Script_WaterfallFromMenu
@@ -771,11 +819,13 @@ Script_UsedWaterfall:
 
 TryWaterfallOW::
 	ld d, WATERFALL
-	call CheckPartyMove
+	call CheckPartyCanLearnMove
 	jr c, .failed
-	ld de, ENGINE_RISINGBADGE
-	call CheckEngineFlag
-	jr c, .failed
+	ld a, FALLS_PERMIT
+	ld [wCurItem], a
+	ld hl, wNumItems
+	call CheckItem
+	jr nc, .failed
 	call CheckMapCanWaterfall
 	jr c, .failed
 	ld a, BANK(Script_AskWaterfall)
@@ -1029,9 +1079,22 @@ StrengthFunction:
 
 .TryStrength:
 ; Strength
-	ld de, ENGINE_PLAINBADGE
-	call CheckBadge
+	ld hl, wUsingHMItem
+	ld a, [hl]
+	and a
+	jr nz, .item
+	ld a, PUSH_PERMIT
+	ld [wCurItem], a
+	ld hl, wNumItems
+	call CheckItem
+	jr nc, .Failed
+	jr .main
+.item
+	ld d, STRENGTH
+	call CheckPartyCanLearnMove
 	jr c, .Failed
+	jr .main
+.main
 	jr .UseStrength
 
 .AlreadyUsingStrength: ; unreferenced
@@ -1123,12 +1186,14 @@ BouldersMayMoveText:
 
 TryStrengthOW:
 	ld d, STRENGTH
-	call CheckPartyMove
+	call CheckPartyCanLearnMove
 	jr c, .nope
 
-	ld de, ENGINE_PLAINBADGE
-	call CheckEngineFlag
-	jr c, .nope
+	ld a, PUSH_PERMIT
+	ld [wCurItem], a
+	ld hl, wNumItems
+	call CheckItem
+	jr nc, .nope
 
 	ld hl, wBikeFlags
 	bit BIKEFLAGS_STRENGTH_ACTIVE_F, [hl]
@@ -1165,9 +1230,22 @@ WhirlpoolFunction:
 	dw .FailWhirlpool
 
 .TryWhirlpool:
-	ld de, ENGINE_GLACIERBADGE
-	call CheckBadge
-	jr c, .noglacierbadge
+	ld hl, wUsingHMItem
+	ld a, [hl]
+	and a
+	jr nz, .item
+	ld a, SWIRL_PERMIT
+	ld [wCurItem], a
+	ld hl, wNumItems
+	call CheckItem
+	jr nc, .failed
+	jr .main
+.item
+	ld d, WHIRLPOOL
+	call CheckPartyCanLearnMove
+	jr c, .failed
+	jr .main
+.main
 	call TryWhirlpoolMenu
 	jr c, .failed
 	ld a, $1
@@ -1175,10 +1253,6 @@ WhirlpoolFunction:
 
 .failed
 	ld a, $2
-	ret
-
-.noglacierbadge
-	ld a, $80
 	ret
 
 .DoWhirlpool:
@@ -1257,11 +1331,13 @@ DisappearWhirlpool:
 
 TryWhirlpoolOW::
 	ld d, WHIRLPOOL
-	call CheckPartyMove
+	call CheckPartyCanLearnMove
 	jr c, .failed
-	ld de, ENGINE_GLACIERBADGE
-	call CheckEngineFlag
-	jr c, .failed
+	ld a, SWIRL_PERMIT
+	ld [wCurItem], a
+	ld hl, wNumItems
+	call CheckItem
+	jr nc, .failed
 	call TryWhirlpoolMenu
 	jr c, .failed
 	ld a, BANK(Script_AskWhirlpoolOW)
@@ -1384,6 +1460,23 @@ RockSmashFunction:
 	ret
 
 TryRockSmashFromMenu:
+
+	ld hl, wUsingHMItem
+	ld a, [hl]
+	and a
+	jr nz, .item
+	ld a, BREAK_PERMIT
+	ld [wCurItem], a
+	ld hl, wNumItems
+	call CheckItem
+	jr nc, .no_rock
+	jr .main
+.item
+	ld d, ROCK_SMASH
+	call CheckPartyCanLearnMove
+	jr c, .no_rock
+	jr .main
+.main
 	call GetFacingObject
 	jr c, .no_rock
 	ld a, d
@@ -1476,13 +1569,19 @@ AskRockSmashText:
 
 HasRockSmash:
 	ld d, ROCK_SMASH
-	call CheckPartyMove
-	jr nc, .yes
-; no
-	ld a, 1
-	jr .done
-.yes
+	call CheckPartyCanLearnMove
+	jr c, .no
+
+	ld a, BREAK_PERMIT
+	ld [wCurItem], a
+	ld hl, wNumItems
+	call CheckItem
+	jr nc, .no
+; yes
 	xor a
+	jr .done
+.no
+	ld a, 1
 	jr .done
 .done
 	ld [wScriptVar], a
@@ -1827,12 +1926,14 @@ GotOffBikeText:
 
 TryCutOW::
 	ld d, CUT
-	call CheckPartyMove
+	call CheckPartyCanLearnMove
 	jr c, .cant_cut
 
-	ld de, ENGINE_HIVEBADGE
-	call CheckEngineFlag
-	jr c, .cant_cut
+	ld a, CUT_PERMIT
+	ld [wCurItem], a
+	ld hl, wNumItems
+	call CheckItem
+	jr nc, .cant_cut
 
 	ld a, BANK(AskCutScript)
 	ld hl, AskCutScript
