@@ -43,6 +43,7 @@ MahoganyGymPryceScript:
 	writetext PryceText_GlacierBadgeSpeech
 	promptbutton
 	verbosegiveitem TM_ICY_WIND
+	verbosegiveitem SWIRL_PERMIT
 	iffalse MahoganyGym_NoRoomForIcyWind
 	setevent EVENT_GOT_TM16_ICY_WIND
 	writetext PryceText_IcyWindSpeech
@@ -199,16 +200,11 @@ Text_ReceivedGlacierBadge:
 
 PryceText_GlacierBadgeSpeech:
 	text "That BADGE will"
-	line "raise the SPECIAL"
-	cont "stats of #MON."
-
-	para "It also lets your"
-	line "#MON use WHIRL-"
-	cont "POOL to get across"
-	cont "real whirlpools."
-
-	para "And this… This is"
-	line "a gift from me!"
+	line "show your proof"
+	cont "of skill."
+	
+	para "And these… These"
+	line "are gifts from me!"
 	done
 
 PryceText_IcyWindSpeech:
@@ -221,6 +217,11 @@ PryceText_IcyWindSpeech:
 	para "It demonstrates"
 	line "the harshness of"
 	cont "winter."
+
+	para "And the permit"
+	line "allows your"
+	cont "#MON to cross"
+	cont "real whirlpools."
 	done
 
 PryceText_CherishYourPokemon:

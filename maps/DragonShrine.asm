@@ -187,6 +187,11 @@ DragonShrine_MapScripts:
 	disappear DRAGONSHRINE_CLAIR
 	waitsfx
 	setevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
+	writetext DragonShrineFallsPermitText
+	waitbutton
+	verbosegiveitem FALLS_PERMIT
+	writetext DragonShrineFallsGivenText
+	promptbutton
 	end
 
 DragonShrineElder1Script:
@@ -653,6 +658,22 @@ DragonShrineRisingBadgeExplanationText:
 
 DragonShrineSpeechlessText:
 	text "<……><……><……><……><……><……>"
+	done
+
+DragonShrineFallsPermitText:
+	text "You should also take this."
+	done
+
+DragonShrineFallsGivenText:
+	text "This permit will"
+	line "allow you to ride"
+
+	para "up waterfalls with"
+	line "your #MON."
+
+	para "Use it on your"
+	line "journey."
+
 	done
 
 DragonShrine_MapEvents:

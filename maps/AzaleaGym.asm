@@ -41,6 +41,9 @@ AzaleaGymBugsyScript:
 	setevent EVENT_BEAT_BUG_CATCHER_JOSH
 	writetext BugsyText_HiveBadgeSpeech
 	promptbutton
+	verbosegiveitem CUT_PERMIT
+	writetext BugsyText_PermitSpeech
+	promptbutton
 	verbosegiveitem TM_FURY_CUTTER
 	iffalse .NoRoomForFuryCutter
 	setevent EVENT_GOT_TM49_FURY_CUTTER
@@ -217,6 +220,18 @@ BugsyText_FuryCutterSpeech:
 
 	para "Isn't that great?"
 	line "I discovered it!"
+	done
+
+BugsyText_PermitSpeech:
+	text "You will need this"
+	line "as well."
+	
+	para "This is the Cut"
+	line "Permit."
+
+	para "This allows #mon"
+	line "to use the Cut"
+	cont "field move."
 	done
 
 BugsyText_BugMonsAreDeep:

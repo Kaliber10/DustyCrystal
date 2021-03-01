@@ -138,6 +138,7 @@ Route36RockSmashGuyScript:
 .ClearedSudowoodo:
 	writetext RockSmashGuyText2
 	promptbutton
+	verbosegiveitem BREAK_PERMIT
 	verbosegiveitem TM_ROCK_SMASH
 	iffalse .NoRoomForTM
 	setevent EVENT_GOT_TM08_ROCK_SMASH
@@ -486,7 +487,7 @@ RockSmashGuyText2:
 
 	para "I'm impressed!"
 	line "I want you to"
-	cont "have this."
+	cont "have these."
 	done
 
 Text_ReceivedTM08: ; unreferenced
@@ -496,7 +497,8 @@ Text_ReceivedTM08: ; unreferenced
 
 RockSmashGuyText3:
 	text "That happens to be"
-	line "ROCK SMASH."
+	line "ROCK SMASH and "
+	cont "its permit."
 
 	para "You can shatter"
 	line "rocks with just a"

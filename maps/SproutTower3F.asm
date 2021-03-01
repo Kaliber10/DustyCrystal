@@ -80,6 +80,9 @@ SageLiScript:
 	setevent EVENT_GOT_HM05_FLASH
 	setevent EVENT_BEAT_SAGE_LI
 	writetext SageLiFlashExplanationText
+	promptbutton
+	verbosegiveitem FLASH_PERMIT
+	writetext SageLiTakeThisPermitText
 	waitbutton
 	closetext
 	end
@@ -238,7 +241,16 @@ SageLiTakeThisFlashText:
 	line "this move."
 
 	para "Take this FLASH"
-	line "HM."
+	line "TM."
+	done
+
+SageLiTakeThisPermitText:
+	text "You will need this"
+	line "as well."
+
+	para "This allows some"
+	line "#MON to use the"
+	cont "FLASH field move."
 	done
 
 SageLiFlashExplanationText:

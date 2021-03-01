@@ -98,6 +98,7 @@ CianwoodCityChucksWife:
 	writetext ChucksWifeGiveHMText
 	promptbutton
 	verbosegiveitem HM_FLY
+	verbosegiveitem FLY_PERMIT
 	iffalse .Done
 	setevent EVENT_GOT_HM02_FLY
 	writetext ChucksWifeFlySpeechText
@@ -211,18 +212,17 @@ ChucksWifeGiveHMText:
 	line "GYM BADGE!"
 
 	para "Then you should"
-	line "take this HM."
+	line "take these!."
 	done
 
 ChucksWifeFlySpeechText:
-	text "Teach FLY to your"
-	line "#MON."
+	text "With these, you"
+	line "can FLY with your"
+	cont "#MON."
 
-	para "You will be able"
-	line "to FLY instantly"
-
-	para "to anywhere you "
-	line "have visited."
+	para "You can instantly"
+	line "FLY to places you"
+	cont "have visited."
 	done
 
 ChucksWifeChubbyText:

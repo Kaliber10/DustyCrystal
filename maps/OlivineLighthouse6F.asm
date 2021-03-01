@@ -16,8 +16,14 @@ OlivineLighthouseJasmine:
 	checkevent EVENT_JASMINE_EXPLAINED_AMPHYS_SICKNESS
 	iftrue .ExplainedSickness
 	writetext JasmineCianwoodPharmacyText
+	waitbutton
+	verbosegiveitem SURF_PERMIT
+	writetext JasmineExplainPermitTest
 	promptbutton
 	setevent EVENT_JASMINE_EXPLAINED_AMPHYS_SICKNESS
+	closetext
+	end
+
 .ExplainedSickness:
 	writetext JasmineGetSomeMedicineText
 	waitbutton
@@ -181,6 +187,22 @@ JasmineCianwoodPharmacyText:
 
 	para "And I can't leave"
 	line "AMPHY unattended…"
+	
+	para "…May I ask you to"
+	line "get some medicine"
+	cont "for me? Please?"
+
+	para "To go across the"
+	line "sea, you will need"
+	cont "this Permit."
+	done
+
+JasmineExplainPermitTest:
+	text "This will allow"
+	line "you to ride your"
+ 
+	para "#MON on the"
+	line "water."
 	done
 
 JasmineGetSomeMedicineText:

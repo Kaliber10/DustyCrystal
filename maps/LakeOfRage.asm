@@ -49,6 +49,9 @@ LakeOfRageLanceScript:
 	promptbutton
 	faceplayer
 	writetext LakeOfRageLanceIntroText
+	promptbutton
+	verbosegiveitem PUSH_PERMIT
+	writetext LakeOfRageLanceInvestigateText
 	yesorno
 	iffalse .RefusedToHelp
 .AgreedToHelp:
@@ -274,6 +277,15 @@ LakeOfRageLanceIntroText:
 
 	para "with considerable"
 	line "skill."
+
+	para "I think you should"
+	line "have this..."
+
+LakeOfRageLanceInvestigateText:
+	text "About the MAGIKARP"
+
+	para "I think I know who"
+	line "is behind this..."
 
 	para "If you don't mind,"
 	line "could you help me"
