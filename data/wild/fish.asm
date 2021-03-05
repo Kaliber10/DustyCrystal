@@ -197,15 +197,15 @@ FishGroups:
 	db  85 percent + 1, MAGIKARP,   10
 	db 100 percent,     POLIWAG,    10
 .Remoraid_Good:
-	db  35 percent,     MAGIKARP,   20
+	db  35 percent,     REMORAID,   20
 	db  70 percent,     POLIWAG,    20
 	db  90 percent + 1, POLIWAG,    20
 	db 100 percent,     time_group 6
 .Remoraid_Super:
-	db  40 percent,     POLIWAG,    40
+	db  40 percent,     REMORAID,    40
 	db  70 percent,     time_group 7
-	db  90 percent + 1, MAGIKARP,   40
-	db 100 percent,     REMORAID,   40
+	db  90 percent + 1, GYARADOS,   40
+	db 100 percent,     POLIWAG,   40
 
 TimeFishGroups:
 	;  day              nite

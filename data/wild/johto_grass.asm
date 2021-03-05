@@ -1322,16 +1322,16 @@ JohtoGrassWildMons:
 	db 10 percent, 10 percent, 10 percent ; encounter rates: morn/day/nite
 	; morn
 	db 4, EKANS
-	db 5, RATTATA
-	db 7, BELLSPROUT
+	db 5, BELLSPROUT
+	db 7, MAREEP
 	db 6, HOPPIP
-	db 7, PIDGEY
+	db 7, RATTATA
 	db 7, HOPPIP
 	db 7, HOPPIP
 	; day
 	db 4, EKANS
-	db 5, RATTATA
-	db 7, BELLSPROUT
+	db 5, BELLSPROUT
+	db 7, MAREEP
 	db 6, HOPPIP
 	db 7, PIDGEY
 	db 7, HOPPIP
@@ -1381,7 +1381,7 @@ JohtoGrassWildMons:
 	db 11, RATTATA
 	db 12, PIDGEY
 	db 10, ABRA
-	db 12, IGGLYPUFF
+	db 12, IGGLYBUFF
 	db 10, DITTO
 	db 10, DITTO
 	; day
@@ -1389,7 +1389,7 @@ JohtoGrassWildMons:
 	db 11, RATTATA
 	db 12, PIDGEY
 	db 10, ABRA
-	db 12, IGGLYPUFF
+	db 12, IGGLYBUFF
 	db 10, DITTO
 	db 10, DITTO
 	; nite
@@ -1452,8 +1452,8 @@ JohtoGrassWildMons:
 	db 4, SPINARAK
 	db 4, HOOTHOOT
 	db 5, BELLSPROUT
-	db 5, HOOTHOOT
-	db 5, HOOTHOOT
+	db 5, VULPIX
+	db 5, VULPIX
 	db 5, GASTLY
 	db 5, GASTLY
 	end_grass_wildmons
@@ -1479,11 +1479,11 @@ JohtoGrassWildMons:
 	; nite
 	db 13, SPINARAK
 	db 14, STANTLER
-	db 15, HOOTHOOT
-	db 16, MURKROW
 	db 15, MURKROW
-	db 15, ARIADOS
-	db 15, ARIADOS
+	db 16, VULPIX
+	db 15, MURKROW
+	db 15, VULPIX
+	db 15, VULPIX
 	end_grass_wildmons
 
 	def_grass_wildmons ROUTE_38
@@ -1550,25 +1550,29 @@ JohtoGrassWildMons:
 	db 15, RATTATA
 	db 16, MAREEP
 	db 15, MAREEP
-	db 16, FLAFFY
-	db 16, FLAFFY
+	db 16, FLAAFFY
+	db 16, FLAAFFY
 	; day
 	db 13, MANKEY
 	db 14, SPEAROW
 	db 15, RATTATA
 	db 16, MAREEP
 	db 15, MAREEP
-	db 16, FLAFFY
-	db 16, FLAFFY
+	db 16, FLAAFFY
+	db 16, FLAAFFY
 	; nite
 	db 13, MANKEY
 	db 14, ZUBAT
 	db 15, RATICATE
 	db 16, MISDREAVUS
 	db 15, MARILL
-	db 16, FLAFFY
-	db 16, FLAFFY
+<<<<<<< HEAD
+	db 16, FLAAFFY
+	db 16, FLAAFFY
 	end_grass_wildmons
+=======
+
+>>>>>>> 10c1746d4... Fixed misspellings of names.
 
 	def_grass_wildmons ROUTE_43
 	db 10 percent, 10 percent, 10 percent ; encounter rates: morn/day/nite
@@ -1576,18 +1580,18 @@ JohtoGrassWildMons:
 	db 15, GIRAFARIG
 	db 16, PIDGEOTTO
 	db 16, FARFETCH_D
-	db 15, FURRET
-	db 17, RATICATE
-	db 17, FURRET
-	db 17, FURRET
+	db 15, FLAAFFY
+	db 17, FLAAFFY
+	db 17, FLAAFFY
+	db 17, FLAAFFY
 	; day
 	db 15, GIRAFARIG
 	db 16, PIDGEOTTO
 	db 16, FARFETCH_D
-	db 15, FURRET
-	db 17, RATICATE
-	db 17, FURRET
-	db 17, FURRET
+	db 15, FLAAFFY
+	db 17, FLAAFFY
+	db 17, FLAAFFY
+	db 17, FLAAFFY
 	; nite
 	db 15, VENONAT
 	db 16, NOCTOWL
