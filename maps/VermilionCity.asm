@@ -5,6 +5,7 @@
 	const VERMILIONCITY_SUPER_NERD
 	const VERMILIONCITY_BIG_SNORLAX
 	const VERMILIONCITY_POKEFAN_M
+	const VERMILIONCITY_OFFICER
 
 VermilionCity_MapScripts:
 	def_scene_scripts
@@ -34,6 +35,41 @@ VermilionMachop:
 	waitbutton
 	closetext
 	end
+
+VermilionOfficerScript:
+	faceplayer
+	opentext
+	checkevent EVENT_GOT_SQUIRTLE
+	iftrue .GotSquirtle
+	writetext VermillionOfficerTakeThisSquirtleText
+	yesorno
+	iffalse .Refused
+	writetext VermillionOfficerThankYouText
+	promptbutton
+	waitsfx
+	readvar VAR_PARTYCOUNT
+	ifequal PARTY_LENGTH, .NoRoom
+	writetext ReceivedSquirtleText
+	playsound SFX_CAUGHT_MON
+	waitsfx
+	givepoke SQUIRTLE, 10
+	setevent EVENT_GOT_SQUIRTLE
+.GotSquirtle
+	writetext VermillionOfficerTakeCareText
+	waitbutton
+	closetext
+	end
+
+.NoRoom:
+	writetext VermillionOfficerPartyFullText
+	waitbutton
+	closetext
+	end
+
+.Refused:
+	writetext VermillionOfficerRefusedText
+	waitbutton
+	closetext
 
 VermilionCitySuperNerdScript:
 	jumptextfaceplayer VermilionCitySuperNerdText
@@ -152,6 +188,44 @@ VermilionMachopText2:
 	text "A MACHOP is growl-"
 	line "ing while stomping"
 	cont "the ground flat."
+	done
+
+VermillionOfficerTakeThisSquirtleText:
+	text "This SQUIRTLE is"
+	line "causing mayhem in"
+	cont "in this city."
+
+	text "Can you raise this"
+	line "#MON for me?"
+	done
+
+ReceivedSquirtleText:
+	text "<PLAYER> recieved"
+	line "SQUIRTLE!"
+	done
+
+VermillionOfficerThankYouText:
+	text "Thank you. You are"
+	line "a real help!"
+	done
+
+VermillionOfficerTakeCareText:
+	text "Please take care"
+	line "of the SQUIRTLE!"
+	done
+
+VermillionOfficerRefusedText:
+	text "Oh? Okay. Maybe"
+	line "another trainer"
+
+	para "can handle this"
+	line "#MON!"
+	done
+
+VermillionOfficerPartyFullText:
+	text "Hold on! You can't"
+	line "carry any more"
+	cont "#MON."
 	done
 
 VermilionCitySuperNerdText:
@@ -299,3 +373,4 @@ VermilionCity_MapEvents:
 	object_event 14, 16, SPRITE_SUPER_NERD, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, VermilionCitySuperNerdScript, -1
 	object_event 34,  8, SPRITE_BIG_SNORLAX, SPRITEMOVEDATA_BIGDOLLSYM, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, VermilionSnorlax, EVENT_VERMILION_CITY_SNORLAX
 	object_event 31, 12, SPRITE_POKEFAN_M, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, VermilionGymBadgeGuy, -1
+	object_event 17, 16, SPRITE_OFFICER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, VermilionOfficerScript, -1

@@ -4,6 +4,8 @@
 	const PEWTERCITY_GRAMPS
 	const PEWTERCITY_FRUIT_TREE1
 	const PEWTERCITY_FRUIT_TREE2
+	const PEWTERCITY_SCIENTIST_KABUTO
+	const PEWTERCITY_SCIENTIST_OMANYTE
 
 PewterCity_MapScripts:
 	def_scene_scripts
@@ -35,6 +37,57 @@ PewterCityGrampsScript:
 
 .GotSilverWing:
 	writetext PewterCityGrampsText_GotSilverWing
+	waitbutton
+	closetext
+	end
+
+PewterCityScientistKabutoScript:
+	faceplayer
+	opentext
+	checkevent EVENT_GOT_KABUTO
+	iftrue .GotKabuto
+	writetext ScientistKabutoTakeThisText
+	promptbutton
+	waitsfx
+	readvar VAR_PARTYCOUNT
+	ifequal PARTY_LENGTH, .NoRoom
+	writetext ReceivedKabutoText
+	playsound SFX_CAUGHT_MON
+	waitsfx
+	givepoke KABUTO, 20
+	setevent EVENT_GOT_KABUTO
+.GotKabuto
+	writetext ScientistEnjoyText
+	waitbutton
+	closetext
+	end
+.NoRoom
+	writetext ScientistPartyFullText
+	waitbutton
+	closetext
+	end
+PewterCityScientistOmanyteScript:
+	faceplayer
+	opentext
+	checkevent EVENT_GOT_OMANYTE
+	iftrue .GotOmanyte
+	writetext ScientistOmanyteTakeThisText
+	promptbutton
+	waitsfx
+	readvar VAR_PARTYCOUNT
+	ifequal PARTY_LENGTH, .NoRoom
+	writetext ReceivedOmanyteText
+	playsound SFX_CAUGHT_MON
+	waitsfx
+	givepoke OMANYTE, 20
+	setevent EVENT_GOT_OMANYTE
+.GotOmanyte
+	writetext ScientistEnjoyText
+	waitbutton
+	closetext
+	end
+.NoRoom
+	writetext ScientistPartyFullText
 	waitbutton
 	closetext
 	end
@@ -114,6 +167,60 @@ PewterCityGrampsText_GotSilverWing:
 	line "of travel."
 	done
 
+ScientistKabutoTakeThisText:
+	text "We are part of the"
+	line "muesum. Over the"
+
+	para "past couple of"
+	line "years. We have"
+
+	para "revived countless"
+	line "fossil remains."
+
+	para "So we are giving"
+	line "them to passing"
+	cont "trainers."
+
+	para "Here is a KABUTO."
+	done
+
+ScientistOmanyteTakeThisText:
+	text "We are part of the"
+	line "muesum. Over the"
+
+	para "past couple of"
+	line "years. We have"
+
+	para "revived countless"
+	line "fossil remains."
+
+	para "So we are giving"
+	line "them to passing"
+	cont "trainers."
+
+	para "Here is a OMANYTE."
+	done
+
+ScientistEnjoyText:
+	text "Take care of your"
+	line "fossil #MON."
+	done
+
+ScientistPartyFullText:
+	text "You can't carry"
+	line "any more #MON."
+	done
+
+ReceivedKabutoText:
+	text "<PLAYER> received"
+	line "KABUTO!"
+	done
+
+ReceivedOmanyteText:
+	text "<PLAYER> received"
+	line "OMANYTE!"
+	done
+
 PewterCitySignText:
 	text "PEWTER CITY"
 	line "A Stone Gray City"
@@ -175,5 +282,7 @@ PewterCity_MapEvents:
 	object_event 19, 11, SPRITE_COOLTRAINER_F, SPRITEMOVEDATA_WANDER, 2, 2, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, PewterCityCooltrainerFScript, -1
 	object_event 14, 29, SPRITE_BUG_CATCHER, SPRITEMOVEDATA_WANDER, 2, 2, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, PewterCityBugCatcherScript, -1
 	object_event 29, 17, SPRITE_GRAMPS, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 2, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, PewterCityGrampsScript, -1
+	object_event 13,  8, SPRITE_SCIENTIST, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, PewterCityScientistKabutoScript, -1
+	object_event 14,  8, SPRITE_SCIENTIST, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, PewterCityScientistOmanyteScript, -1
 	object_event 32,  3, SPRITE_FRUIT_TREE, SPRITEMOVEDATA_STILL, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, PewterCityFruitTree1, -1
 	object_event 30,  3, SPRITE_FRUIT_TREE, SPRITEMOVEDATA_STILL, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, PewterCityFruitTree2, -1

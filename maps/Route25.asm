@@ -10,6 +10,7 @@
 	const ROUTE25_SUPER_NERD
 	const ROUTE25_COOLTRAINER_M2
 	const ROUTE25_POKE_BALL
+	const ROUTE25_OFFICER
 
 Route25_MapScripts:
 	def_scene_scripts
@@ -179,6 +180,40 @@ TrainerCooltrainermKevin:
 	writetext CooltrainermKevinAfterBattleText
 	waitbutton
 .NoRoomForNugget:
+	closetext
+	end
+
+Route25OfficerScript:
+	faceplayer
+	opentext
+	checkevent EVENT_GOT_CHARMANDER
+	iftrue .GotCharmander
+	writetext Route25OfficerCareForCharmanderText
+	yesorno
+	iffalse .Refused
+	writetext Route25OfficerRaiseItWellText
+	promptbutton
+	waitsfx
+	readvar VAR_PARTYCOUNT
+	ifequal PARTY_LENGTH, .NoRoom
+	writetext ReceivedCharmanderText
+	playsound SFX_CAUGHT_MON
+	waitsfx
+	givepoke CHARMANDER, 10
+	setevent EVENT_GOT_CHARMANDER
+.GotCharmander
+	writetext Route25OfficerThankYouText
+	waitbutton
+	closetext
+	end
+.NoRoom:
+	writetext Route25OfficerPartyFullText
+	waitbutton
+	closetext
+	end
+.Refused
+	writetext Route25OfficerShameText
+	waitbutton
 	closetext
 	end
 
@@ -418,6 +453,49 @@ CooltrainermKevinAfterBattleText:
 	cont "standing!"
 	done
 
+Route25OfficerCareForCharmanderText:
+	text "I found this lone"
+	line "CHARMANDER near"
+
+	para "this boulder. It"
+	line "looks like it"
+	cont "needs a good owner"
+
+	para "to take care of"
+	line "it. Could you"
+
+	para "please care for"
+	line "it?"
+	done
+
+Route25OfficerRaiseItWellText:
+	text "Thank you. Please"
+	line "raise it to be"
+	cont "strong."
+	done
+
+Route25OfficerThankYouText:
+	text "Thank you for"
+	line "choosing to take"
+
+	para "care of"
+	line "CHARMANDER."
+	done
+
+Route25OfficerPartyFullText:
+	text "Oh? Your party is"
+	line "full?"
+	done
+
+Route25OfficerShameText:
+	text "That's a shame..."
+	done
+
+ReceivedCharmanderText:
+	text "<PLAYER> recieved"
+	line "CHARMANDER!"
+	done
+
 BillsHouseSignText:
 	text "SEA COTTAGE"
 	line "BILL'S HOUSE"
@@ -452,4 +530,5 @@ Route25_MapEvents:
 	object_event 28, 11, SPRITE_LASS, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 1, TrainerLassShannon, -1
 	object_event 31,  7, SPRITE_SUPER_NERD, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_TRAINER, 1, TrainerSupernerdPat, -1
 	object_event 37,  8, SPRITE_COOLTRAINER_M, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, TrainerCooltrainermKevin, -1
+	object_event 5,   5, SPRITE_OFFICER, SPRITEMOVEDATA_STANDING_LEFT, 0, 0 , -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, Route25OfficerScript, -1
 	object_event 32,  4, SPRITE_POKE_BALL, SPRITEMOVEDATA_STILL, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, Route25Protein, EVENT_ROUTE_25_PROTEIN
