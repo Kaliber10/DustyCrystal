@@ -195,7 +195,7 @@ VermillionOfficerTakeThisSquirtleText:
 	line "causing mayhem in"
 	cont "in this city."
 
-	text "Can you raise this"
+	para "Can you raise this"
 	line "#MON for me?"
 	done
 
