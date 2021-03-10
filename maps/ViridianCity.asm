@@ -3,6 +3,7 @@
 	const VIRIDIANCITY_GRAMPS2
 	const VIRIDIANCITY_FISHER
 	const VIRIDIANCITY_YOUNGSTER
+	const VIRIDIANCITY_BIRD_TRAINER
 
 ViridianCity_MapScripts:
 	def_scene_scripts
@@ -66,6 +67,26 @@ ViridianCityDreamEaterFisher:
 
 ViridianCityYoungsterScript:
 	jumptextfaceplayer ViridianCityYoungsterText
+
+ViridianCityBirdTrainerScript:
+	faceplayer
+	opentext
+	checkevent EVENT_FOUGHT_MOLTRES
+	iftrue .FoughtMoltres
+	checkevent EVENT_BINOCULARS_MOLTRES
+	iftrue .ExplainedMoltres
+	writetext ViridianCityMoltresText
+	setevent EVENT_BINOCULARS_MOLTRES
+.ExplainedMoltres
+	writetext ViridianCitySeenMoltresText
+	waitbutton
+	closetext
+	end
+.FoughtMoltres:
+	writetext ViridianCityFoughtMoltresText
+	waitbutton
+	closetext
+	end
 
 ViridianCitySign:
 	jumptext ViridianCitySignText
@@ -182,6 +203,32 @@ ViridianCityYoungsterText:
 	line "VIRIDIAN FOREST."
 	done
 
+ViridianCityMoltresText:
+	text "I heard about a"
+	line "BIRD #MON with"
+
+	para "wings made of"
+	line "fire! I hope to"
+
+	para "see such a #-"
+	line "MON."
+	done
+
+ViridianCitySeenMoltresText:
+	text "The BIRD #MON"
+	line "is said to roost"
+
+	para "on CINNABAR ISLAND"
+	line "occasionally."
+	done
+
+ViridianCityFoughtMoltresText:
+	text "You were able to"
+	line "find the #MON?"
+
+	para "You are so lucky!"
+	done
+
 ViridianCitySignText:
 	text "VIRIDIAN CITY"
 
@@ -238,3 +285,4 @@ ViridianCity_MapEvents:
 	object_event 30,  8, SPRITE_GRAMPS, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, ViridianCityGrampsNearGym, -1
 	object_event  6, 23, SPRITE_FISHER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, ViridianCityDreamEaterFisher, -1
 	object_event 17, 21, SPRITE_YOUNGSTER, SPRITEMOVEDATA_WANDER, 3, 3, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, ViridianCityYoungsterScript, -1
+	object_event 27, 19, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, ViridianCityBirdTrainerScript, -1

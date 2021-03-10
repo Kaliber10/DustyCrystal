@@ -1,14 +1,31 @@
 	object_const_def
 	const CINNABARISLAND_BLUE
+	const CINNABARISLAND_MOLTRES
 
 CinnabarIsland_MapScripts:
 	def_scene_scripts
 
 	def_callbacks
 	callback MAPCALLBACK_NEWMAP, .FlyPoint
+	callback MAPCALLBACK_OBJECTS, .Moltres
 
 .FlyPoint:
 	setflag ENGINE_FLYPOINT_CINNABAR
+	endcallback
+
+.Moltres
+	checkevent EVENT_FOUGHT_MOLTRES
+	iftrue .NoAppear
+	checkevent EVENT_BINOCULARS_MOLTRES
+	iftrue .Appear
+	sjump .NoAppear
+
+.Appear:
+	appear CINNABARISLAND_MOLTRES
+	endcallback
+
+.NoAppear:
+	disappear CINNABARISLAND_MOLTRES
 	endcallback
 
 CinnabarIslandBlue:
@@ -22,6 +39,25 @@ CinnabarIslandBlue:
 	disappear CINNABARISLAND_BLUE
 	clearevent EVENT_VIRIDIAN_GYM_BLUE
 	end
+
+Moltres:
+	faceplayer
+	opentext
+	writetext MoltresText
+	cry MOLTRES
+	pause 15
+	closetext
+	setevent EVENT_FOUGHT_MOLTRES
+	loadvar VAR_BATTLETYPE, BATTLETYPE_FORCEITEM
+	loadwildmon MOLTRES, 55
+	startbattle
+	disappear CINNABARISLAND_MOLTRES
+	reloadmapafterbattle
+	end
+
+MoltresText:
+	text "Gyaaas!"
+	done
 
 CinnabarIslandGymSign:
 	jumptext CinnabarIslandGymSignText
@@ -141,3 +177,4 @@ CinnabarIsland_MapEvents:
 
 	def_object_events
 	object_event  9,  6, SPRITE_BLUE, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, CinnabarIslandBlue, EVENT_BLUE_IN_CINNABAR
+	object_event  6,  6, SPRITE_MOLTRES, SPRITEMOVEDATA_POKEMON, 0, 0 , -1, -1, 0, OBJECTTYPE_SCRIPT, 0, Moltres, EVENT_CINNABAR_MOLTRES
