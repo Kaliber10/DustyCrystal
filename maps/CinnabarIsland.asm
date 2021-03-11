@@ -13,7 +13,7 @@ CinnabarIsland_MapScripts:
 	setflag ENGINE_FLYPOINT_CINNABAR
 	endcallback
 
-.Moltres
+.Moltres:
 	checkevent EVENT_FOUGHT_MOLTRES
 	iftrue .NoAppear
 	checkevent EVENT_BINOCULARS_MOLTRES

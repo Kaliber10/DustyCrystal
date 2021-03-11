@@ -5,6 +5,7 @@
 	const CERULEANCITY_COOLTRAINER_F
 	const CERULEANCITY_FISHER
 	const CERULEANCITY_YOUNGSTER
+	const CERULEANCITY_BIRD_TRAINER
 
 CeruleanCity_MapScripts:
 	def_scene_scripts
@@ -120,6 +121,27 @@ CeruleanCityYoungsterScript:
 	closetext
 	end
 
+CeruleanCityBirdTrainerScript:
+	faceplayer
+	opentext
+	checkevent EVENT_FOUGHT_ZAPDOS
+	iftrue .FoughtZapdos
+	checkevent EVENT_BINOCULARS_ZAPDOS
+	iftrue .ExplainedZapdos
+	writetext CeruleanCityZapdosText
+	waitbutton
+	setevent EVENT_BINOCULARS_ZAPDOS
+.ExplainedZapdos
+	writetext CeruleanCitySeenZapdosText
+	waitbutton
+	closetext
+	end
+.FoughtZapdos:
+	writetext CeruleanCityFoughtZapdosText
+	waitbutton
+	closetext
+	end
+
 CeruleanCitySign:
 	jumptext CeruleanCitySignText
 
@@ -226,6 +248,32 @@ CeruleanCityYoungsterText2:
 	line "responding…"
 	done
 
+CeruleanCityZapdosText:
+	text "I heard about a"
+	line "BIRD #MON that"
+
+	para "crackle with elec-"
+	line "tricity! I hope to"
+
+	para "see such a #-"
+	line "MON someday."
+	done
+
+CeruleanCitySeenZapdosText:
+	text "The BIRD #MON"
+	line "is said to roost"
+
+	para "near the POWER"
+	line "PLANT occasion-"
+	cont "ally."
+	done
+
+CeruleanCityFoughtZapdosText:
+	text "You were able to"
+	line "find the #MON?"
+	cont "You are so lucky!"
+	done
+
 CeruleanCitySignText:
 	text "CERULEAN CITY"
 
@@ -301,6 +349,7 @@ CeruleanCity_MapEvents:
 	object_event 15, 23, SPRITE_COOLTRAINER_M, SPRITEMOVEDATA_WANDER, 2, 2, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, CeruleanCityCooltrainerMScript, -1
 	object_event 23, 15, SPRITE_SUPER_NERD, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, CeruleanCitySuperNerdScript, -1
 	object_event 20, 24, SPRITE_SLOWPOKE, SPRITEMOVEDATA_STILL, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, CeruleanCitySlowbro, -1
-	object_event 21, 24, SPRITE_COOLTRAINER_F, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, CeruleanCityCooltrainerFScript, -1
+	object_event 21, 24, SPRITE_LASS, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, CeruleanCityCooltrainerFScript, -1
 	object_event 30, 26, SPRITE_FISHER, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 1, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, CeruleanCityFisherScript, -1
 	object_event  6, 12, SPRITE_YOUNGSTER, SPRITEMOVEDATA_SPINRANDOM_SLOW, 1, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, CeruleanCityYoungsterScript, -1
+	object_event 12,  9, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, CeruleanCityBirdTrainerScript, -1

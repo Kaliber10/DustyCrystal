@@ -76,6 +76,7 @@ ViridianCityBirdTrainerScript:
 	checkevent EVENT_BINOCULARS_MOLTRES
 	iftrue .ExplainedMoltres
 	writetext ViridianCityMoltresText
+	waitbutton
 	setevent EVENT_BINOCULARS_MOLTRES
 .ExplainedMoltres
 	writetext ViridianCitySeenMoltresText
@@ -225,8 +226,7 @@ ViridianCitySeenMoltresText:
 ViridianCityFoughtMoltresText:
 	text "You were able to"
 	line "find the #MON?"
-
-	para "You are so lucky!"
+	cont "You are so lucky!"
 	done
 
 ViridianCitySignText:

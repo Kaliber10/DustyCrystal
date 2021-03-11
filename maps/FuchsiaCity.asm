@@ -3,6 +3,7 @@
 	const FUCHSIACITY_POKEFAN_M
 	const FUCHSIACITY_TEACHER
 	const FUCHSIACITY_FRUIT_TREE
+	const FUCHSIACITY_BIRD_TRAINER
 
 FuchsiaCity_MapScripts:
 	def_scene_scripts
@@ -22,6 +23,27 @@ FuchsiaCityPokefanM:
 
 FuchsiaCityTeacher:
 	jumptextfaceplayer FuchsiaCityTeacherText
+
+FuchsiaCityBirdTrainerScript:
+	faceplayer
+	opentext
+	checkevent EVENT_FOUGHT_ARTICUNO
+	iftrue .FoughtArticuno
+	checkevent EVENT_BINOCULARS_ARTICUNO
+	iftrue .ExplainedArticuno
+	writetext FuchsiaCityArticunoText
+	waitbutton
+	setevent EVENT_BINOCULARS_ARTICUNO
+.ExplainedArticuno
+	writetext FuchsiaCitySeenArticunoText
+	waitbutton
+	closetext
+	end
+.FoughtArticuno:
+	writetext FuchsiaCityFoughtArticunoText
+	waitbutton
+	closetext
+	end
 
 FuchsiaCitySign:
 	jumptext FuchsiaCitySignText
@@ -74,6 +96,29 @@ FuchsiaCityTeacherText:
 	para "considering it's"
 	line "FUCHSIA's main"
 	cont "attraction."
+	done
+
+FuchsiaCityArticunoText:
+	text "I heard about a"
+	line "BIRD #MON with"
+
+	para "wings made of"
+	line "ice! I hope to see"
+	cont "such a #MON."
+	done
+
+FuchsiaCitySeenArticunoText:
+	text "The BIRD #MON"
+	line "is said to roost"
+
+	para "on SEAFOAM ISLANDS"
+	line "occasionally."
+	done
+
+FuchsiaCityFoughtArticunoText:
+	text "You were able to"
+	line "find the #MON?"
+    cont "You are so lucky!"
 	done
 
 FuchsiaCitySignText:
@@ -155,3 +200,4 @@ FuchsiaCity_MapEvents:
 	object_event 13,  8, SPRITE_POKEFAN_M, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_SCRIPT, 0, FuchsiaCityPokefanM, -1
 	object_event 16, 14, SPRITE_TEACHER, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, FuchsiaCityTeacher, -1
 	object_event  8,  1, SPRITE_FRUIT_TREE, SPRITEMOVEDATA_STILL, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, FuchsiaCityFruitTree, -1
+	object_event  8, 13, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, FuchsiaCityBirdTrainerScript, -1
