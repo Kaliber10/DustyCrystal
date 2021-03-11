@@ -89,8 +89,10 @@ ElmsLab_MapScripts:
 ProfElmScript:
 	faceplayer
 	opentext
-	checkevent EVENT_GOT_SS_TICKET_FROM_ELM
+	checkevent EVENT_GOT_LONELY_STARTER
 	iftrue ElmCheckMasterBall
+	checkevent EVENT_GOT_SS_TICKET_FROM_ELM
+	iftrue ElmGiveLonelyStarterScript
 	checkevent EVENT_BEAT_ELITE_FOUR
 	iftrue ElmGiveTicketScript
 ElmCheckMasterBall:
@@ -198,7 +200,7 @@ TotodilePokeBallScript:
 	writetext TakeTotodileText
 	yesorno
 	iffalse DidntChooseStarterScript
-	disappear ELMSLAB_POKE_BALL2
+	disappear ELMSLAB_POKE_BALL1
 	setevent EVENT_GOT_TOTODILE_FROM_ELM
 	writetext ChoseStarterText
 	promptbutton
@@ -413,10 +415,62 @@ ElmGiveTicketScript:
 	verbosegiveitem S_S_TICKET
 	setevent EVENT_GOT_SS_TICKET_FROM_ELM
 	writetext ElmGiveTicketText2
+ElmGiveLonelyStarterScript:
+	writetext ElmTakeStarterText
+	yesorno
+	iffalse .Refused
+	writetext ElmHappyText
+	promptbutton
+	waitsfx
+	readvar VAR_PARTYCOUNT
+	ifequal PARTY_LENGTH, .NoRoom
+	setevent EVENT_GOT_LONELY_STARTER
+	checkevent EVENT_GOT_TOTODILE_FROM_ELM
+	iftrue .Cyndaquil
+	checkevent EVENT_GOT_CHIKORITA_FROM_ELM
+	iftrue .Totodile
+	disappear ELMSLAB_POKE_BALL3
+	getmonname STRING_BUFFER_3, CHIKORITA
+	writetext ReceivedStarterText
+	playsound SFX_CAUGHT_MON
+	waitsfx
+	givepoke CHIKORITA, 5, BERRY
+	writetext ElmTakeCareText
 	waitbutton
 	closetext
 	end
-
+.Refused
+	writetext ElmRefusedSecondStarterText
+	waitbutton
+	closetext
+	end
+.NoRoom
+	writetext ElmNoRoomText
+	waitbutton
+	closetext
+	end
+.Cyndaquil
+	disappear ELMSLAB_POKE_BALL1
+	getmonname STRING_BUFFER_3, CYNDAQUIL
+	writetext ReceivedStarterText
+	playsound SFX_CAUGHT_MON
+	waitsfx
+	givepoke CYNDAQUIL, 5, BERRY
+	writetext ElmTakeCareText
+	waitbutton
+	closetext
+	end
+.Totodile
+	disappear ELMSLAB_POKE_BALL1
+	getmonname STRING_BUFFER_3, TOTODILE
+	writetext ReceivedStarterText
+	playsound SFX_CAUGHT_MON
+	waitsfx
+	givepoke TOTODILE, 5, BERRY
+	writetext ElmText
+	waitbutton
+	closetext
+	end
 ElmJumpBackScript1:
 	closetext
 	readvar VAR_FACING
@@ -1206,6 +1260,48 @@ ElmGiveTicketText2:
 
 	para "Give my regards to"
 	line "PROF.OAK in KANTO!"
+	done
+
+ElmTakeStarterText:
+	text "Oh, you have grown"
+	line "so strong. I think"
+
+	para "you would be per-"
+	line "fect for this. I"
+
+	para "still have a #-"
+	line "MON here without a"
+	cont "trainer."
+
+	para "Would you please"
+	line "raise it for me?"
+
+	para "I am too busy with"
+	line "research."
+	done
+
+ElmHappyText:
+	text "That's great! It"
+	line "will be so happy"
+	cont "to work with you."
+	done
+
+ElmRefusedSecondStarterText:
+	text "Okay, I under-"
+	line "stand. If you"
+
+	para "change your mind,"
+	line "you can always"
+	cont "come back."
+	done
+
+ElmNoRoomText:
+	text "You can't carry"
+	line "any more #MON."
+	done
+
+ElmTakeCareText:
+	text "Take care!"
 	done
 
 ElmsLabMonEggText: ; unreferenced
