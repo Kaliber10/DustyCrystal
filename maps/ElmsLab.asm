@@ -467,7 +467,7 @@ ElmGiveLonelyStarterScript:
 	playsound SFX_CAUGHT_MON
 	waitsfx
 	givepoke TOTODILE, 5, BERRY
-	writetext ElmText
+	writetext ElmTakeCareText
 	waitbutton
 	closetext
 	end

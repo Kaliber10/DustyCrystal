@@ -16,7 +16,7 @@ Oak:
 	faceplayer
 	opentext
 	checkevent EVENT_OPENED_MT_SILVER
-	iftrue .CheckPokedex
+	iftrue .GiveStarter
 	checkevent EVENT_TALKED_TO_OAK_IN_KANTO
 	iftrue .CheckBadges
 	writetext OakWelcomeKantoText
@@ -27,7 +27,9 @@ Oak:
 	ifequal NUM_BADGES, .OpenMtSilver
 	ifequal NUM_JOHTO_BADGES, .Complain
 	sjump .AhGood
-
+.CheckStarter:
+	checkevent EVENT_GOT_RIVAL_STARTER
+	iffalse .GiveStarter
 .CheckPokedex:
 	writetext OakLabDexCheckText
 	waitbutton
@@ -41,18 +43,64 @@ Oak:
 	writetext OakOpenMtSilverText
 	promptbutton
 	setevent EVENT_OPENED_MT_SILVER
-	sjump .CheckPokedex
+	sjump .CheckStarter
 
 .Complain:
 	writetext OakNoKantoBadgesText
 	promptbutton
-	sjump .CheckPokedex
+	sjump .CheckStarter
 
 .AhGood:
 	writetext OakYesKantoBadgesText
 	promptbutton
-	sjump .CheckPokedex
+	sjump .CheckStarter
 
+.GiveStarter
+	writetext OakGiveStarter
+	waitbutton
+	readvar VAR_PARTYCOUNT
+	ifequal PARTY_LENGTH, .PartyFull
+	checkevent EVENT_GOT_TOTODILE_FROM_ELM
+	iftrue .Chikorita
+	checkevent EVENT_GOT_CHIKORITA_FROM_ELM
+	iftrue .Cyndaquil
+	getmonname STRING_BUFFER_3, TOTODILE
+	writetext OakReceivedStarterText
+	playsound SFX_CAUGHT_MON
+	waitsfx
+	givepoke TOTODILE, 10
+	seevent EVENT_GOT_RIVAL_STARTER
+	writetext OakEvolveStarter
+	waitbutton
+	closetext
+	end
+.PartyFull
+	writetext OakPartyFull
+	waitbutton
+	closetext
+	end
+.Chikorita
+	getmonname STRING_BUFFER_3, CHIKORITA
+	writetext OakReceivedStarterText
+	playsound SFX_CAUGHT_MON
+	waitsfx
+	givepoke CHIKORITA, 10
+	setevent EVENT_GOT_RIVAL_STARTER
+	writetext OakEvolveStarter
+	waitbutton
+	closetext
+	end
+.Cyndaquil
+	getmonname STRING_BUFFER_3, CYNDAQUIL
+	writetext OakReceivedStarterText
+	playsound SFX_CAUGHT_MON
+	waitsfx
+	givepoke CYNDAQUIL, 10
+	setevent EVENT_GOT_RIVAL_STARTER
+	writetext OakEvolveStarter
+	waitbutton
+	closetext
+	end
 OaksAssistant1Script:
 	jumptextfaceplayer OaksAssistant1Text
 
@@ -89,6 +137,36 @@ OakWelcomeKantoText:
 
 	para "out here?"
 	line "Pretty tough, huh?"
+	done
+
+OakGiveStarter:
+	text "Here! I have a"
+	line "#MON that should"
+
+	para "help you with your"
+	line "journey to com-"
+	cont "plete the #DEX."
+	done
+
+OakEvolveStarter:
+	text "That #MON should"
+	line "evolve into great-"
+	cont "er if you raise it"
+
+	para "to be stronger."
+	done
+
+OakPartyFull:
+	text "You have too many"
+	line "#MON in your par-"
+	cont "ty right now."
+	done
+
+OakReceivedStarterText:
+	text "<PLAYER> received"
+	line "@"
+	text_ram wStringBuffer3
+	text "!"
 	done
 
 OakLabDexCheckText:
