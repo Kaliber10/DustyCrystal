@@ -268,6 +268,8 @@ INCLUDE "maps/TinTower9F.asm"
 INCLUDE "maps/BurnedTower1F.asm"
 INCLUDE "maps/BurnedTowerB1F.asm"
 
+INCLUDE "maps/CeruleanCave.asm"
+
 
 SECTION "Map Scripts 15", ROMX
 

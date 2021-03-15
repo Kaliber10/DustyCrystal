@@ -458,6 +458,9 @@ UnionCaveB2F_Blocks:
 UnionCave1F_Blocks:
 	INCBIN "maps/UnionCave1F.blk"
 
+CeruleanCave_Blocks:
+	INCBIN "maps/CeruleanCave.blk"
+
 NationalPark_Blocks:
 NationalParkBugContest_Blocks:
 	INCBIN "maps/NationalPark.blk"

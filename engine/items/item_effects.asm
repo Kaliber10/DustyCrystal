@@ -2594,49 +2594,49 @@ OpenBox:
 	text_far _SentTrophyHomeText
 	text_end
 
-SurfPermitEffect
+SurfPermitEffect:
 	ld a, 1
 	ld [wUsingHMItem], a
 	farcall SurfFunction
 	ret
 
-CutPermitEffect
+CutPermitEffect:
 	ld a, 1
 	ld [wUsingHMItem], a
 	farcall CutFunction
 	ret
 
-FlyPermitEffect
+FlyPermitEffect:
 	ld a, 1
 	ld [wUsingHMItem], a
 	farcall FlyFunction
 	ret
 
-PushPermitEffect
+PushPermitEffect:
 	ld a, 1
 	ld [wUsingHMItem], a
 	farcall StrengthFunction
 	ret
 
-FlashPermitEffect
+FlashPermitEffect:
 	ld a, 1
 	ld [wUsingHMItem], a
 	farcall FlashFunction
 	ret
 
-FallsPermitEffect
+FallsPermitEffect:
 	ld a, 1
 	ld [wUsingHMItem], a
 	farcall WaterfallFunction
 	ret
 
-SwirlPermitEffect
+SwirlPermitEffect:
 	ld a, 1
 	ld [wUsingHMItem], a
 	farcall WhirlpoolFunction
 	ret
 
-BreakPermitEffect
+BreakPermitEffect:
 	ld a, 1
 	ld [wUsingHMItem], a
 	farcall RockSmashFunction

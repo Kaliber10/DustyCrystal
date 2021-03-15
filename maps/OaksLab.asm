@@ -69,7 +69,7 @@ Oak:
 	playsound SFX_CAUGHT_MON
 	waitsfx
 	givepoke TOTODILE, 10
-	seevent EVENT_GOT_RIVAL_STARTER
+	setevent EVENT_GOT_RIVAL_STARTER
 	writetext OakEvolveStarter
 	waitbutton
 	closetext
@@ -141,7 +141,7 @@ OakWelcomeKantoText:
 
 OakGiveStarter:
 	text "Here! I have a"
-	line "#MON that should"
+	line "#MON that could"
 
 	para "help you with your"
 	line "journey to com-"
@@ -149,17 +149,18 @@ OakGiveStarter:
 	done
 
 OakEvolveStarter:
-	text "That #MON should"
-	line "evolve into great-"
-	cont "er if you raise it"
+	text "That #MON will"
+	line "evolve into a"
 
-	para "to be stronger."
+	para "great #MON if"
+	line "you raise it to be"
+	cont "stronger."
 	done
 
 OakPartyFull:
 	text "You have too many"
-	line "#MON in your par-"
-	cont "ty right now."
+	line "#MON in your"
+	cont "party right now."
 	done
 
 OakReceivedStarterText:

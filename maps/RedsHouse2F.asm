@@ -25,7 +25,7 @@ RedsHouse2F_MapScripts:
 Mew:
 	faceplayer
 	opentext
-	writetext MEWText
+	writetext MewText
 	cry MEW
 	pause 15
 	closetext

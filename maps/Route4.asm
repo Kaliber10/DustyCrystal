@@ -3,48 +3,11 @@
 	const ROUTE4_LASS1
 	const ROUTE4_LASS2
 	const ROUTE4_POKE_BALL
-	const ROUTE4_MEWTWO
 
 Route4_MapScripts:
 	def_scene_scripts
 
 	def_callbacks
-	callback MAPCALLBACK_OBJECTS, .Mewtwo
-
-.Mewtwo
-	checkevent EVENT_FOUGHT_MEWTWO
-	iftrue .NoAppear
-	checkevent EVENT_BEAT_RED
-	iftrue .Appear
-	sjump .NoAppear
-
-.Appear:
-	appear ROUTE4_MEWTWO
-	endcallback
-
-.NoAppear:
-	disappear ROUTE4_MEWTWO
-	endcallback
-
-Mewtwo:
-	faceplayer
-	opentext
-	writetext MewtwoText
-	cry MEWTWO
-	pause 15
-	closetext
-	setevent EVENT_FOUGHT_MEWTWO
-	loadvar VAR_BATTLETYPE, BATTLETYPE_FORCEITEM
-	loadwildmon MEWTWO, 70
-	startbattle
-	disappear ROUTE4_MEWTWO
-	reloadmapafterbattle
-	end
-
-MewtwoText:
-	text "Mew!"
-	done
-
 TrainerBirdKeeperHank:
 	trainer BIRD_KEEPER, HANK, EVENT_BEAT_BIRD_KEEPER_HANK, BirdKeeperHankSeenText, BirdKeeperHankBeatenText, 0, .Script
 
@@ -171,4 +134,3 @@ Route4_MapEvents:
 	object_event  9,  8, SPRITE_LASS, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 4, TrainerPicnickerHope, -1
 	object_event 21,  6, SPRITE_LASS, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 4, TrainerPicnickerSharon, -1
 	object_event 26,  3, SPRITE_POKE_BALL, SPRITEMOVEDATA_STILL, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, Route4HPUp, EVENT_ROUTE_4_HP_UP
-	object_event 37,  4, SPRITE_JYNX, SPRITEMOVEDATA_POKEMON, 0, 0 , -1, -1, 0, OBJECTTYPE_SCRIPT, 0, Mewtwo, EVENT_ROUTE_4_MEWTWO
