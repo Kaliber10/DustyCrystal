@@ -92,7 +92,7 @@ CeladonPrizeRoom_purchased:
 CeladonPrizeRoom_alreadyhavetm:
 	writetext CeladonPrizeRoom_AlreadyHaveTMText
 	waitbutton
-	sjump
+	sjump CeladonPrizeRoom_tmcounterloop
 
 CeladonPrizeRoom_notenoughcoins:
 	writetext CeladonPrizeRoom_NotEnoughCoinsText

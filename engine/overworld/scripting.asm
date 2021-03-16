@@ -2359,12 +2359,12 @@ Script_checksave:
 	ld [wScriptVar], a
 	ret
 
-Script_checkver_duplicate: ; unreferenced
-	ld a, [.gs_version]
-	ld [wScriptVar], a
-	ret
+;Script_checkver_duplicate: ; unreferenced
+;	ld a, [.gs_version]
+;	ld [wScriptVar], a
+;	ret
 
-AppendTMHMMoveNAME::
+AppendTMHMMoveName::
 ; a = item ID
 	ld a, [wNamedObjectIndex]
 	cp TM01
@@ -2386,7 +2386,7 @@ AppendTMHMMoveNAME::
 	pop hl
 ; append wStringBuffer1 to item name buffer
 	ld [hl], " "
-	inc h1
+	inc hl
 	ld de, wStringBuffer1
 	jp CopyName2
 

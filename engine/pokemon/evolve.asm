@@ -114,7 +114,7 @@ EvolveAfterBattle_MasterLoop:
 	jp nz, .dont_evolve_2
 
 	inc hl
-	jr .proceed
+	jp .proceed
 
 .happiness
 	ld a, [wTempMonHappiness]
@@ -187,7 +187,7 @@ EvolveAfterBattle_MasterLoop:
 	ld b, a
 	ld a, [wTempMonItem]
 	cp b
-	jp nx, .dont_evolve_3
+	jp nz, .dont_evolve_3
 	xor a
 	ld [wTempMonItem], a
 	jp .proceed

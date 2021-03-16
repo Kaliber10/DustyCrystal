@@ -949,7 +949,7 @@ DoRepelStep:
 
 	ld a, [wRepelType]
 	ld [wCurItem], a
-	ld h1, wNumItems
+	ld hl, wNumItems
 	call CheckItem
 	ld a, BANK(RepelWoreOffScript)
 	ld hl, RepelWoreOffScript
