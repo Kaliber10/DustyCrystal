@@ -629,6 +629,11 @@ _MartSellHowManyText::
 	text "How many?"
 	done
 
+_AlreadyHaveTMText::
+	text "You already have"
+	line "that TM."
+	done
+
 _MartSellPriceText::
 	text "I can pay you"
 	line "¥@"
