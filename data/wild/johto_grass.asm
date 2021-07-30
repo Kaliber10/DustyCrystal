@@ -1566,13 +1566,9 @@ JohtoGrassWildMons:
 	db 15, RATICATE
 	db 16, MISDREAVUS
 	db 15, MARILL
-<<<<<<< HEAD
 	db 16, FLAAFFY
 	db 16, FLAAFFY
 	end_grass_wildmons
-=======
-
->>>>>>> 10c1746d4... Fixed misspellings of names.
 
 	def_grass_wildmons ROUTE_43
 	db 10 percent, 10 percent, 10 percent ; encounter rates: morn/day/nite
